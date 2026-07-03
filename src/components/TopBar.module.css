@@ -1,0 +1,99 @@
+.topBar {
+  position: relative;
+  z-index: 10;
+  background: #0D2545;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.topBarInner {
+  min-height: 56px;
+}
+
+.topBarMarquee {
+  position: relative;
+}
+
+.topBarTrack {
+  overflow: hidden;
+}
+
+.topBarGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.75rem;
+  white-space: nowrap;
+  animation: marquee 24s linear infinite;
+}
+
+.topBarItem {
+  display: inline-flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
+}
+
+.topBarItem:hover {
+  opacity: 1;
+}
+
+.topBarActions {
+  flex-shrink: 0;
+}
+
+.topBarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  min-width: 120px;
+  border-radius: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 25px rgba(13, 37, 69, 0.08);
+}
+
+.topBarButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton {
+  background: #B8953A;
+  color: #ffffff;
+}
+
+.secondaryButton {
+  background: #0D2545;
+  color: #ffffff;
+}
+
+.altButton {
+  background: #ffffff;
+  color: #0D2545;
+  border: 1px solid rgba(13, 37, 69, 0.12);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .topBarInner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topBarActions {
+    justify-content: center;
+  }
+
+  .topBarGroup {
+    gap: 1.5rem;
+  }
+}

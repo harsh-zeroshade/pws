@@ -1,26 +1,146 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  --font-heading: var(--font-playfair), Georgia, serif;
+
+  /* Brand palette — derived from PWS navy/gold logo */
+  --color-navy: #0D2545;
+  --color-navy-light: #1a3a6e;
+  --color-gold: #B8953A;
+  --color-gold-light: #D4AF5A;
+  --color-cream: #FAFAF8;
+  --color-ivory: #F5F0E8;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #FAFAF8;
+  --foreground: #0D2545;
+  --card: #ffffff;
+  --card-foreground: #0D2545;
+  --popover: #ffffff;
+  --popover-foreground: #0D2545;
+  --primary: #0D2545;
+  --primary-foreground: #FAFAF8;
+  --secondary: #F5F0E8;
+  --secondary-foreground: #0D2545;
+  --muted: #F5F0E8;
+  --muted-foreground: #6b6b5a;
+  --accent: #B8953A;
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e8e4d9;
+  --input: #e8e4d9;
+  --ring: #B8953A;
+  --radius: 0.75rem;
+  --sidebar: #0D2545;
+  --sidebar-foreground: #FAFAF8;
+  --sidebar-primary: #B8953A;
+  --sidebar-primary-foreground: #0D2545;
+  --sidebar-accent: #1a3a6e;
+  --sidebar-accent-foreground: #FAFAF8;
+  --sidebar-border: rgba(255,255,255,0.1);
+  --sidebar-ring: #B8953A;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Premium custom scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #FAFAF8; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #0D2545, #B8953A);
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: rgba(184, 149, 58, 0.2);
+    color: #0D2545;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Typography utilities */
+.font-display { font-family: var(--font-display); }
+.font-sans { font-family: var(--font-sans); }
+
+/* ─── Kill ALL Swiper injected backgrounds (cause of white foggy sides) ─── */
+.swiper { background: transparent !important; }
+.swiper-wrapper { background: transparent !important; }
+.swiper-slide { background: transparent !important; }
+.swiper-container { background: transparent !important; }
+/* Coverflow effect can add white to slides — nuke it */
+.swiper-slide-shadow-left,
+.swiper-slide-shadow-right,
+.swiper-slide-shadow,
+.swiper-slide-shadow-top,
+.swiper-slide-shadow-bottom { display: none !important; }
+.swiper-pagination-bullet {
+  background: #B8953A !important;
+  opacity: 0.4;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: #B8953A !important;
+}
+
+/* Grain texture overlay */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
 }

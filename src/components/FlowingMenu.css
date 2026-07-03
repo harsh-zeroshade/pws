@@ -1,0 +1,152 @@
+.flow-menu-wrap {
+  width: 100%;
+  height: 100vh;
+  padding: 2.5rem 1.25rem 1rem;
+  background: rgba(17, 16, 23, 0.96);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.flow-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  height: calc(100vh - 3.5rem);
+  overflow-y: auto;
+}
+
+.flow-menu-item {
+  width: 100%;
+  position: relative;
+  border-radius: 1rem;
+}
+
+.flow-menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  text-decoration: none;
+  padding: 0.9rem 1rem;
+  color: #f5f3fb;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  transition: background 0.2s ease;
+}
+
+.flow-menu-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.flow-menu-pill {
+  width: 100px;
+  height: 42px;
+  border-radius: 999px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.flow-menu-title {
+  flex: 1;
+  color: #f5f3fb;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.flow-menu-item:hover .flow-menu-pill {
+  transform: scale(1.04);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+.flow-menu-link.sub-btn {
+  cursor: pointer;
+}
+
+.flow-menu-arrow {
+  margin-left: auto;
+  color: #fff;
+  transition: transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.flow-menu-arrow.open {
+  transform: rotate(90deg);
+}
+
+/* Submenu (accordion-style, in-flow) */
+.flow-menu-sub {
+  position: relative;
+  left: auto;
+  transform: none;
+  top: auto;
+  background: rgba(26, 24, 35, 0.98);
+  border-radius: 0.95rem;
+  margin-top: 0.72rem;
+  overflow: hidden;
+  max-height: 0;
+  padding: 0;
+  transition: max-height 300ms ease, padding 200ms ease;
+}
+
+/* when item is open, expand */
+.flow-menu-item.open .flow-menu-sub {
+  padding: 0.5rem 0.75rem;
+  max-height: 700px;
+}
+
+.flow-menu-sub-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.flow-menu-sub-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  color: #f5f3fb;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: none;
+  border-radius: 0.75rem;
+  transition: background 0.2s ease;
+}
+
+.flow-menu-sub-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.flow-menu-sub-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b8953a;
+}
+
+@media (max-width: 720px) {
+  .flow-menu-pill { width: 140px; height: 44px; }
+  .flow-menu-item { width: 96%; }
+  .flow-menu-title { font-size: clamp(14px, 3.5vw, 18px); }
+  .flow-menu-sub { left: 8%; transform: none; }
+}
+
+/* Hide native scrollbar but still allow scrolling */
+.flow-menu-list {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.flow-menu-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
