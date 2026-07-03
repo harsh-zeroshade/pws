@@ -111,7 +111,7 @@ export default function WhyChooseSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#060F1E] py-28"
+      className="bg-[#060F1E] py-16 sm:py-20 lg:py-28"
       style={{ position: "relative", isolation: "isolate" }}
     >
       {/* background pattern */}
@@ -127,10 +127,10 @@ export default function WhyChooseSection() {
       <div aria-hidden style={{ position:"absolute", top:0, left:"25%", width:"24rem", height:"24rem", background:"rgba(184,149,58,.07)", borderRadius:"50%", filter:"blur(80px)", zIndex:0, pointerEvents:"none" }} />
       <div aria-hidden style={{ position:"absolute", bottom:0, right:"20%", width:"28rem", height:"28rem", background:"rgba(13,37,69,.5)", borderRadius:"50%", filter:"blur(80px)", zIndex:0, pointerEvents:"none" }} />
 
-      <div style={{ position:"relative", zIndex:1 }} className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16">
+      <div style={{ position:"relative", zIndex:1 }} className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16">
 
         {/* Header row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-8 mb-10 sm:mb-14">
           <div>
             <motion.div initial={{ opacity:0,x:-20 }} animate={inView?{opacity:1,x:0}:{}} transition={{ duration:.6 }}
               className="flex items-center gap-4 mb-5">
@@ -181,7 +181,7 @@ export default function WhyChooseSection() {
               animate={{ opacity:1, x:0 }}
               exit={{ opacity:0, x:-60 }}
               transition={{ duration:.45, ease:[.22,1,.36,1] }}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
             >
               {visibleIdx.map((idx, pos) => {
                 const item = REASONS[idx];
@@ -301,7 +301,7 @@ export default function WhyChooseSection() {
 
         {/* Stats */}
         <motion.div initial={{ opacity:0, y:30 }} animate={inView?{opacity:1,y:0}:{}} transition={{ delay:.5 }}
-          className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-4 border-t border-white/10 pt-10">
+          className="mt-10 sm:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 border-t border-white/10 pt-8 sm:pt-10">
           {[
             { val:"10",   suf:" Acres",  label:"Campus Size" },
             { val:"1:16", suf:"",        label:"Teacher–Student Ratio" },

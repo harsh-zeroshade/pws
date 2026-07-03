@@ -57,47 +57,54 @@ export default function Footer() {
   return (
     <footer className="bg-[#060F1E] text-white border-t border-white/5">
 
-      {/* CTA banner */}
+      {/* ── CTA banner ── */}
       <div className="border-b border-white/8">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16 py-12 flex flex-col sm:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="font-display font-bold text-2xl text-white mb-1">Admissions Open — Session 2026–27</p>
-            <p className="text-white/40 text-[14px] font-sans">Limited seats available. Apply early to secure your child's future.</p>
-          </div>
-          <div className="flex gap-4 flex-shrink-0">
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link href="/admission/brochure"
-                className="px-6 py-3 bg-[#B8953A] text-white font-bold rounded-xl text-[14px] font-sans hover:bg-[#a07d2e] transition-colors block">
-                Apply Now
-              </Link>
-            </motion.div>
-            <motion.a href="tel:8899117704" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-              className="px-6 py-3 bg-white/10 text-white font-semibold rounded-xl text-[14px] font-sans hover:bg-white/15 transition-colors border border-white/10">
-              📞 8899117704
-            </motion.a>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-8 sm:py-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div>
+              <p className="font-display font-bold text-lg sm:text-2xl text-white mb-1">
+                Admissions Open — Session 2026–27
+              </p>
+              <p className="text-white/40 text-[13px] sm:text-[14px] font-sans">
+                Limited seats available. Apply early to secure your child&apos;s future.
+              </p>
+            </div>
+            <div className="flex flex-col xs:flex-row gap-3 w-full sm:w-auto flex-shrink-0">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+                <Link href="/admission/brochure"
+                  className="block text-center px-5 py-2.5 sm:px-6 sm:py-3 bg-[#B8953A] text-white font-bold rounded-xl text-[13px] sm:text-[14px] font-sans hover:bg-[#a07d2e] transition-colors">
+                  Apply Now
+                </Link>
+              </motion.div>
+              <motion.a href="tel:8899117704" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                className="block text-center px-5 py-2.5 sm:px-6 sm:py-3 bg-white/10 text-white font-semibold rounded-xl text-[13px] sm:text-[14px] font-sans hover:bg-white/15 transition-colors border border-white/10">
+                📞 8899117704
+              </motion.a>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main grid */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16 pt-16 pb-10">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
+      {/* ── Main grid ── */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 pt-10 sm:pt-14 lg:pt-16 pb-8 sm:pb-10">
 
-          {/* Brand col */}
-          <div className="col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-block mb-5">
-              <Image src="/pws-logo.png" alt="Pacific World School" width={92} height={40} className="object-contain" />
+        {/* Brand + links */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 mb-10 sm:mb-14">
+
+          {/* Brand col — full width on mobile */}
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1">
+            <Link href="/" className="inline-block mb-4 sm:mb-5">
+              <Image src="/pws-logo.png" alt="Pacific World School" width={80} height={36} className="object-contain" />
             </Link>
-            <p className="text-white/35 text-[13px] leading-relaxed mb-6 font-sans">
+            <p className="text-white/35 text-[12px] sm:text-[13px] leading-relaxed mb-5 sm:mb-6 font-sans">
               Premier CBSE &amp; Cambridge international school in Greater Noida West. Excellence · Empathy · Empowerment.
             </p>
             <div className="flex gap-2">
-              {socials.map((s) => (
+              {socials.map(s => (
                 <motion.a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, y: -2 }}
                   className="w-8 h-8 rounded-lg bg-white/8 border border-white/10 flex items-center justify-center hover:bg-[#B8953A] hover:border-[#B8953A] transition-all"
-                  aria-label={s.label}
-                >
+                  aria-label={s.label}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={s.icon} alt={s.label} width={13} height={13} className="opacity-60 hover:opacity-100 transition-opacity" />
                 </motion.a>
@@ -105,15 +112,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link cols */}
-          {cols.map((col) => (
+          {/* Link columns — 2 per row on mobile, 1 each on lg */}
+          {cols.map(col => (
             <div key={col.heading}>
-              <h4 className="font-sans font-semibold text-[10px] uppercase tracking-[0.2em] text-white/30 mb-5">{col.heading}</h4>
-              <ul className="space-y-3">
-                {col.links.map((l) => (
+              <h4 className="font-sans font-semibold text-[10px] uppercase tracking-[0.18em] text-white/30 mb-4">{col.heading}</h4>
+              <ul className="space-y-2.5 sm:space-y-3">
+                {col.links.map(l => (
                   <li key={l.href}>
                     <Link href={l.href}
-                      className="text-white/45 hover:text-[#D4AF5A] text-[13px] font-sans transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#B8953A] after:transition-all after:duration-300 hover:after:w-full">
+                      className="text-white/45 hover:text-[#D4AF5A] text-[12px] sm:text-[13px] font-sans transition-colors">
                       {l.label}
                     </Link>
                   </li>
@@ -124,27 +131,33 @@ export default function Footer() {
         </div>
 
         {/* Contact strip */}
-        <div className="border-t border-white/8 pt-8 pb-4 grid sm:grid-cols-3 gap-4 mb-8 text-[13px]">
-          <div className="flex items-center gap-3 text-white/40 font-sans">
-            <span>📍</span>
+        <div className="border-t border-white/8 pt-6 sm:pt-8 pb-4 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 text-[12px] sm:text-[13px]">
+          <div className="flex items-start gap-2.5 text-white/40 font-sans">
+            <span className="mt-0.5 flex-shrink-0">📍</span>
             <span>HS-02, Tech Zone-4, Greater Noida West — 201308</span>
           </div>
-          <a href="tel:8899117704" className="flex items-center gap-3 text-white/40 hover:text-white/80 font-sans transition-colors">
+          <a href="tel:8899117704" className="flex items-center gap-2.5 text-white/40 hover:text-white/80 font-sans transition-colors">
             <span>📞</span><span>8899117704 (Admissions)</span>
           </a>
-          <a href="mailto:info@pacificworldschool.com" className="flex items-center gap-3 text-white/40 hover:text-white/80 font-sans transition-colors">
-            <span>✉️</span><span>info@pacificworldschool.com</span>
+          <a href="mailto:info@pacificworldschool.com" className="flex items-center gap-2.5 text-white/40 hover:text-white/80 font-sans transition-colors">
+            <span>✉️</span><span className="break-all">info@pacificworldschool.com</span>
           </a>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/6 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/25 text-[12px] font-sans">© 2026 Pacific World School · All Rights Reserved</p>
-          <div className="flex gap-6">
+        <div className="border-t border-white/6 pt-5 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <p className="text-white/25 text-[11px] sm:text-[12px] font-sans text-center sm:text-left">
+            © 2026 Pacific World School · All Rights Reserved
+          </p>
+          <div className="flex gap-4 sm:gap-6">
             <a href="https://www.pacificworldschool.com" target="_blank" rel="noopener noreferrer"
-              className="text-white/25 hover:text-white/50 text-[12px] font-sans transition-colors">Terms &amp; Conditions</a>
+              className="text-white/25 hover:text-white/50 text-[11px] sm:text-[12px] font-sans transition-colors">
+              Terms &amp; Conditions
+            </a>
             <a href="https://www.pacificworldschool.com" target="_blank" rel="noopener noreferrer"
-              className="text-white/25 hover:text-white/50 text-[12px] font-sans transition-colors">Privacy Policy</a>
+              className="text-white/25 hover:text-white/50 text-[11px] sm:text-[12px] font-sans transition-colors">
+              Privacy Policy
+            </a>
           </div>
         </div>
       </div>

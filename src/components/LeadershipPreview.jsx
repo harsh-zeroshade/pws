@@ -40,7 +40,7 @@ export default function LeadershipPreview() {
   const [modalIdx, setModalIdx] = useState(null);
 
   return (
-    <section ref={ref} className="bg-white py-28 relative">
+    <section ref={ref} className="bg-white py-16 sm:py-20 lg:py-28 relative">
       {/* Subtle background pattern */}
       <div
         aria-hidden
@@ -52,8 +52,8 @@ export default function LeadershipPreview() {
         }}
       />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16 relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16">
           <div>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -90,7 +90,7 @@ export default function LeadershipPreview() {
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {leaders.map((l, i) => (
             <motion.div
               key={l.name}

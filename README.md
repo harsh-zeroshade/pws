@@ -2,7 +2,7 @@
 
 > A modern, full-stack school website built with Next.js 16, featuring a complete CMS-powered admin panel, dynamic content management, and a premium dark-themed design.
 
-**Live:** [pacificworldschool.com](https://www.pacificworldschool.com) &nbsp;|&nbsp; **Stack:** Next.js · MongoDB · NextAuth · Tailwind CSS · Framer Motion
+**Live:** [pacificworldschool.vercel.app](https://pacificworldschool.vercel.app) &nbsp;|&nbsp; **Stack:** Next.js · MongoDB · NextAuth · Tailwind CSS · Framer Motion
 
 ---
 

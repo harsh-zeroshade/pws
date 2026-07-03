@@ -31,72 +31,38 @@ export default function TestimonialsSection() {
   });
 
   return (
-    <section ref={sectionRef} className="relative bg-[#FAFAF8] py-32 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-[#FAFAF8] py-16 sm:py-24 lg:py-32 overflow-hidden">
       {/* Fade masks — need relative on parent to work */}
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#FAFAF8] to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#FAFAF8] to-transparent z-10 pointer-events-none" />
 
       {/* Header */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16 mb-16">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 mb-10 sm:mb-16">
         <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            className="inline-flex items-center gap-4 mb-8"
-          >
-            <div className="h-px w-14 bg-[#B8953A]" />
-            <span className="text-[#B8953A] text-[11px] font-semibold tracking-[0.3em] uppercase font-sans">
-              Parent Voices
-            </span>
-            <div className="h-px w-14 bg-[#B8953A]" />
+          <motion.div initial={{ opacity:0 }} animate={isInView?{opacity:1}:{}} className="inline-flex items-center gap-4 mb-6 sm:mb-8">
+            <div className="h-px w-10 sm:w-14 bg-[#B8953A]" />
+            <span className="text-[#B8953A] text-[11px] font-semibold tracking-[0.3em] uppercase font-sans">Parent Voices</span>
+            <div className="h-px w-10 sm:w-14 bg-[#B8953A]" />
           </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          <motion.h2 initial={{ opacity:0, y:40 }} animate={isInView?{opacity:1,y:0}:{}} transition={{ delay:0.1, duration:1, ease:[0.22,1,0.36,1] }}
             className="font-display font-bold text-[#0D2545] leading-[1.05]"
-            style={{ fontSize: "clamp(2.4rem, 4.5vw, 4rem)" }}
-          >
-            What Families{" "}
-            <em className="text-[#B8953A] not-italic font-black">Are Saying</em>
+            style={{ fontSize:"clamp(1.8rem, 5vw, 4rem)" }}>
+            What Families{" "}<em className="text-[#B8953A] not-italic font-black">Are Saying</em>
           </motion.h2>
         </div>
       </div>
 
       {/* Marquee */}
-      <div
-        onMouseEnter={() => (paused.current = true)}
-        onMouseLeave={() => (paused.current = false)}
-        className="overflow-hidden"
-      >
-        <div
-          className="flex gap-6 will-change-transform"
-          style={{ transform: `translateX(${offset}px)`, width: "max-content" }}
-        >
+      <div onMouseEnter={() => (paused.current=true)} onMouseLeave={() => (paused.current=false)} className="overflow-hidden">
+        <div className="flex gap-4 sm:gap-6 will-change-transform" style={{ transform:`translateX(${offset}px)`, width:"max-content" }}>
           {all.map((t, i) => (
-            <div
-              key={i}
-              className="w-80 flex-shrink-0 p-8 rounded-3xl bg-white border border-[#e8e4d9] hover:border-[#B8953A]/30 hover:shadow-lg hover:shadow-[#B8953A]/6 transition-all duration-300"
-            >
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-5">
-                {Array.from({ length: t.rating }).map((_, s) => (
-                  <span key={s} className="text-[#B8953A] text-sm">★</span>
-                ))}
+            <div key={i} className="w-72 sm:w-80 flex-shrink-0 p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[#e8e4d9] hover:border-[#B8953A]/30 hover:shadow-lg transition-all duration-300">
+              <div className="flex gap-0.5 mb-4 sm:mb-5">
+                {Array.from({ length: t.rating }).map((_, s) => (<span key={s} className="text-[#B8953A] text-sm">★</span>))}
               </div>
-
-              <p className="text-[#5a5a4a] text-[14px] leading-[1.8] mb-6 font-sans italic">
-                &ldquo;{t.text}&rdquo;
-              </p>
-
+              <p className="text-[#5a5a4a] text-[13px] sm:text-[14px] leading-[1.8] mb-5 sm:mb-6 font-sans italic">&ldquo;{t.text}&rdquo;</p>
               <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-display font-bold text-sm shadow-sm flex-shrink-0"
-                  style={{ background: t.color }}
-                >
-                  {t.initials}
-                </div>
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white font-display font-bold text-sm shadow-sm flex-shrink-0" style={{ background:t.color }}>{t.initials}</div>
                 <div>
                   <p className="font-display font-bold text-[#0D2545] text-sm">{t.name}</p>
                   <p className="text-[#9a9a8a] text-[11px] font-sans">{t.child}</p>

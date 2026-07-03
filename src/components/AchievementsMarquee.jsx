@@ -50,25 +50,21 @@ export default function AchievementsMarquee() {
   const visibleIdx = Array.from({ length: VISIBLE }, (_, k) => (current + k) % total);
 
   return (
-    <section className="bg-[#FAFAF8] py-20" style={{ position: "relative" }}>
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16">
+    <section className="bg-[#FAFAF8] py-12 sm:py-16 lg:py-20" style={{ position:"relative" }}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16">
 
-        {/* ── Header ── */}
-        <div className="flex items-end justify-between mb-10">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-8 sm:mb-10">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div className="h-px w-10 bg-[#B8953A]" />
-              <span className="text-[#B8953A] text-[11px] font-semibold tracking-[.3em] uppercase font-sans">
-                Our Recognition
-              </span>
+              <span className="text-[#B8953A] text-[11px] font-semibold tracking-[.3em] uppercase font-sans">Our Recognition</span>
             </div>
-            <h2 className="font-display font-black text-[#0D2545] leading-tight"
-              style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)" }}>
+            <h2 className="font-display font-black text-[#0D2545] leading-tight" style={{ fontSize:"clamp(1.6rem,3vw,2.8rem)" }}>
               Our <em className="text-[#B8953A] not-italic">Achievements</em>
             </h2>
           </div>
-          <Link href="/achievements"
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-[#0D2545] text-white rounded-xl text-[13px] font-semibold font-sans hover:bg-[#1a3a6e] transition-colors">
+          <Link href="/achievements" className="hidden sm:inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-[#0D2545] text-white rounded-xl text-[12px] sm:text-[13px] font-semibold font-sans hover:bg-[#1a3a6e] transition-colors">
             View All →
           </Link>
         </div>
@@ -116,7 +112,7 @@ export default function AchievementsMarquee() {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+                className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
               >
                 {visibleIdx.map((idx, pos) => (
                   <motion.div
