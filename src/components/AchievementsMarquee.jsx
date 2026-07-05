@@ -22,23 +22,29 @@ const IMAGES = [
   "https://admin.pacificworldschool.com/storage/uploads/1747199385_1745826363_5%20final.png",
 ];
 
-const VISIBLE = 4;
+function getVisibleCount() {
+  if (typeof window === "undefined") return 4;
+  if (window.innerWidth < 640) return 2;
+  if (window.innerWidth < 1024) return 3;
+  return 4;
+}
 
 export default function AchievementsMarquee() {
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
   const [paused, setPaused] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
   const total = IMAGES.length;
 
-  const next = useCallback(() => {
-    setDir(1);
-    setCurrent((p) => (p + 1) % total);
-  }, [total]);
+  useEffect(() => {
+    const update = () => setVisibleCount(getVisibleCount());
+    update();
+    window.addEventListener("resize", update, { passive: true });
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
-  const prev = useCallback(() => {
-    setDir(-1);
-    setCurrent((p) => (p - 1 + total) % total);
-  }, [total]);
+  const next = useCallback(() => { setDir(1); setCurrent(p => (p + 1) % total); }, [total]);
+  const prev = useCallback(() => { setDir(-1); setCurrent(p => (p - 1 + total) % total); }, [total]);
 
   useEffect(() => {
     if (paused) return;
@@ -46,106 +52,101 @@ export default function AchievementsMarquee() {
     return () => clearInterval(id);
   }, [paused, next]);
 
-  // 4 visible indices (circular)
-  const visibleIdx = Array.from({ length: VISIBLE }, (_, k) => (current + k) % total);
+  const visibleIdx = Array.from({ length: visibleCount }, (_, k) => (current + k) % total);
+  const totalGroups = Math.ceil(total / visibleCount);
+  const currentGroup = Math.floor(current / visibleCount);
 
   return (
-    <section className="bg-[#FAFAF8] py-12 sm:py-16 lg:py-20" style={{ position:"relative" }}>
+    <section className="bg-[#FAFAF8] py-12 sm:py-16 lg:py-20 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16">
 
         {/* Header */}
-        <div className="flex items-end justify-between mb-8 sm:mb-10">
+        <div className="flex items-end justify-between mb-6 sm:mb-10">
           <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="h-px w-10 bg-[#B8953A]" />
-              <span className="text-[#B8953A] text-[11px] font-semibold tracking-[.3em] uppercase font-sans">Our Recognition</span>
+            <div className="flex items-center gap-3 mb-2 sm:mb-3">
+              <div className="h-px w-8 sm:w-10 bg-[#B8953A]" />
+              <span className="text-[#B8953A] text-[10px] sm:text-[11px] font-semibold tracking-[.3em] uppercase font-sans">Our Recognition</span>
             </div>
-            <h2 className="font-display font-black text-[#0D2545] leading-tight" style={{ fontSize:"clamp(1.6rem,3vw,2.8rem)" }}>
+            <h2 className="font-display font-black text-[#0D2545] leading-tight" style={{ fontSize:"clamp(1.5rem,4vw,2.8rem)" }}>
               Our <em className="text-[#B8953A] not-italic">Achievements</em>
             </h2>
           </div>
-          <Link href="/achievements" className="hidden sm:inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-[#0D2545] text-white rounded-xl text-[12px] sm:text-[13px] font-semibold font-sans hover:bg-[#1a3a6e] transition-colors">
-            View All →
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/achievements" className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-[#0D2545] text-white rounded-xl text-[12px] sm:text-[13px] font-semibold font-sans hover:bg-[#1a3a6e] transition-colors">
+              View All →
+            </Link>
+          </div>
         </div>
 
-        {/* ── Slider wrapper with side arrows ── */}
+        {/* Slider */}
         <div
           className="relative"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setTimeout(() => setPaused(false), 3000)}
         >
-          {/* LEFT arrow — same style as screenshot */}
+          {/* Navigation arrows — inside container, not outside (no overflow clip) */}
+          <div className="flex items-center justify-between mb-4 sm:hidden">
+            <button onClick={() => { prev(); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
+              className="w-9 h-9 rounded-full bg-white shadow border border-[#e8e4d9] flex items-center justify-center text-[#0D2545]"
+              aria-label="Previous">
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+            <span className="text-[#0D2545]/40 text-[12px] font-sans tabular-nums">
+              <span className="text-[#0D2545] font-semibold">{String(current+1).padStart(2,"0")}</span> / {String(total).padStart(2,"0")}
+            </span>
+            <button onClick={() => { next(); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
+              className="w-9 h-9 rounded-full bg-white shadow border border-[#e8e4d9] flex items-center justify-center text-[#0D2545]"
+              aria-label="Next">
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+          </div>
+
+          {/* Desktop arrows outside */}
           <button
             onClick={() => { prev(); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
-            aria-label="Previous"
-            className="absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-lg border border-[#e8e4d9] flex items-center justify-center text-[#0D2545] hover:bg-[#0D2545] hover:text-white hover:border-[#0D2545] transition-all"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            className="hidden sm:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-lg border border-[#e8e4d9] items-center justify-center text-[#0D2545] hover:bg-[#0D2545] hover:text-white transition-all"
+            aria-label="Previous">
+            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
-
-          {/* RIGHT arrow */}
           <button
             onClick={() => { next(); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
-            aria-label="Next"
-            className="absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-lg border border-[#e8e4d9] flex items-center justify-center text-[#0D2545] hover:bg-[#0D2545] hover:text-white hover:border-[#0D2545] transition-all"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            className="hidden sm:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-lg border border-[#e8e4d9] items-center justify-center text-[#0D2545] hover:bg-[#0D2545] hover:text-white transition-all"
+            aria-label="Next">
+            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
 
-          {/* Images */}
+          {/* Images grid */}
           <div style={{ overflow: "hidden" }}>
             <AnimatePresence mode="popLayout" initial={false} custom={dir}>
               <motion.div
-                key={current}
+                key={`${current}-${visibleCount}`}
                 custom={dir}
                 variants={{
-                  enter:  (d) => ({ opacity: 0, x: d > 0 ?  48 : -48 }),
-                  center: ()  => ({ opacity: 1, x: 0 }),
-                  exit:   (d) => ({ opacity: 0, x: d > 0 ? -48 :  48 }),
+                  enter:  d => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
+                  center: () => ({ opacity: 1, x: 0 }),
+                  exit:   d => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
                 }}
-                initial="enter"
-                animate="center"
-                exit="exit"
+                initial="enter" animate="center" exit="exit"
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+                className={`grid gap-3 sm:gap-4 ${
+                  visibleCount === 2 ? "grid-cols-2" :
+                  visibleCount === 3 ? "grid-cols-3" :
+                  "grid-cols-2 lg:grid-cols-4"
+                }`}
               >
                 {visibleIdx.map((idx, pos) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
+                  <motion.div key={idx}
+                    initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: pos * 0.05, duration: 0.4 }}
-                    className="group relative overflow-hidden rounded-2xl"
-                    style={{
-                      aspectRatio: "3/4",   /* portrait — matches achievement cards in screenshot */
-                      background: "#f0ece4",
-                      boxShadow: "0 4px 20px rgba(0,0,0,.10)",
-                    }}
-                  >
+                    className="group relative overflow-hidden rounded-xl sm:rounded-2xl"
+                    style={{ aspectRatio: "3/4", background: "#f0ece4", boxShadow: "0 4px 16px rgba(0,0,0,.08)" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={IMAGES[idx]}
-                      alt={`Achievement ${idx + 1}`}
-                      loading="lazy"
-                      className="group-hover:scale-105 transition-transform duration-700"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",       /* fills card like the screenshot */
-                        objectPosition: "top",
-                        display: "block",
-                      }}
-                    />
-                    {/* Gold border glow on hover */}
-                    <div
-                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{ boxShadow: "inset 0 0 0 2px #B8953A" }}
-                    />
+                    <img src={IMAGES[idx]} alt={`Achievement ${idx+1}`} loading="lazy"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                      style={{ boxShadow: "inset 0 0 0 2px #B8953A" }} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -153,27 +154,24 @@ export default function AchievementsMarquee() {
           </div>
         </div>
 
-        {/* ── Dots ── */}
-        <div className="flex justify-center gap-2 mt-7">
-          {Array.from({ length: Math.ceil(total / VISIBLE) }).map((_, i) => {
-            const groupStart = i * VISIBLE;
-            const isActive = current >= groupStart && current < groupStart + VISIBLE;
-            return (
-              <button
-                key={i}
-                onClick={() => { setCurrent(groupStart); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
-                aria-label={`Group ${i + 1}`}
-                className="rounded-full transition-all duration-300"
-                style={{
-                  width: isActive ? 24 : 8,
-                  height: 8,
-                  background: isActive ? "#B8953A" : "rgba(13,37,69,.18)",
-                }}
-              />
-            );
-          })}
+        {/* Dots + mobile View All */}
+        <div className="flex items-center justify-between mt-5 sm:mt-7">
+          <Link href="/achievements" className="sm:hidden text-[#0D2545] text-[12px] font-semibold font-sans border-b border-[#B8953A]">
+            View All →
+          </Link>
+          <div className="flex gap-2 mx-auto sm:mx-0">
+            {Array.from({ length: totalGroups }).map((_, i) => {
+              const isActive = Math.floor(current / visibleCount) === i;
+              return (
+                <button key={i}
+                  onClick={() => { setCurrent(i * visibleCount); setPaused(true); setTimeout(() => setPaused(false), 4000); }}
+                  className="rounded-full transition-all duration-300"
+                  style={{ width: isActive ? 24 : 8, height: 8, background: isActive ? "#B8953A" : "rgba(13,37,69,.18)" }}
+                  aria-label={`Group ${i+1}`} />
+              );
+            })}
+          </div>
         </div>
-
       </div>
     </section>
   );

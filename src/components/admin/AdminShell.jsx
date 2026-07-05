@@ -1,307 +1,302 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/* ── nav tree ── */
 const TOP_NAV = [
-  { label: "Dashboard",    href: "/admin/dashboard",  icon: "dashboard" },
-  { label: "Media Library",href: "/admin/media",       icon: "perm_media" },
-  { label: "Settings",     href: "/admin/settings",    icon: "settings" },
+  { label: "Dashboard",     href: "/admin/dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
+  { label: "Media Library",  href: "/admin/media",     icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" },
+  { label: "Settings",       href: "/admin/settings",  icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z" },
 ];
 
 const PAGE_GROUPS = [
-  { group: "Home", icon: "home", items: [
-    { label: "Hero & Stats",       href: "/admin/pages/home" },
-    { label: "Hero Video",         href: "/admin/pages/hero-video" },
-    { label: "Announcements",      href: "/admin/pages/announcements" },
-    { label: "Partners / Logos",   href: "/admin/pages/partners" },
+  { group: "Home", items: [
+    { label: "Hero & Stats",     href: "/admin/pages/home" },
+    { label: "Hero Video",       href: "/admin/pages/hero-video" },
+    { label: "Announcements",    href: "/admin/pages/announcements" },
+    { label: "Partners / Logos", href: "/admin/pages/partners" },
   ]},
-  { group: "About Us", icon: "info", items: [
-    { label: "About School",       href: "/admin/pages/about-school" },
-    { label: "Chairperson",        href: "/admin/pages/chairperson-message" },
-    { label: "Pro-Vice Chair",     href: "/admin/pages/vice-chairperson-message" },
-    { label: "Principal",          href: "/admin/pages/principal-message" },
-    { label: "Leadership Team",    href: "/admin/pages/leadership-team" },
-    { label: "Differentiating",    href: "/admin/pages/differentiating-factors" },
-    { label: "Our Faculty",        href: "/admin/pages/our-faculty" },
-    { label: "Amenities",          href: "/admin/pages/amenities" },
+  { group: "About Us", items: [
+    { label: "About School",           href: "/admin/pages/about-school" },
+    { label: "Chairperson",            href: "/admin/pages/chairperson-message" },
+    { label: "Pro-Vice Chair",         href: "/admin/pages/vice-chairperson-message" },
+    { label: "Principal",              href: "/admin/pages/principal-message" },
+    { label: "Leadership Team",        href: "/admin/pages/leadership-team" },
+    { label: "Differentiating",        href: "/admin/pages/differentiating-factors" },
+    { label: "Our Faculty",            href: "/admin/pages/our-faculty" },
+    { label: "Amenities",              href: "/admin/pages/amenities" },
   ]},
-  { group: "Academics", icon: "school", items: [
-    { label: "CBSE",               href: "/admin/pages/academics-cbse" },
-    { label: "Cambridge",          href: "/admin/pages/academics-cambridge" },
-    { label: "Toppers",            href: "/admin/pages/topper-details" },
+  { group: "Academics", items: [
+    { label: "CBSE",                   href: "/admin/pages/academics-cbse" },
+    { label: "Cambridge",              href: "/admin/pages/academics-cambridge" },
+    { label: "Toppers",                href: "/admin/pages/topper-details" },
   ]},
-  { group: "Admission", icon: "how_to_reg", items: [
-    { label: "Registration",       href: "/admin/pages/registration" },
+  { group: "Admission", items: [
+    { label: "Registration Process",   href: "/admin/pages/registration" },
   ]},
-  { group: "Site-Wide", icon: "public", items: [
-    { label: "Contact Info",       href: "/admin/pages/contact" },
+  { group: "Site-Wide", items: [
+    { label: "Contact Info",           href: "/admin/pages/contact" },
+    { label: "School Settings",        href: "/admin/settings" },
   ]},
 ];
+
+/* Design tokens */
+const D = {
+  bg:      "#0a0f1c",
+  sidebar: "#0f172a",
+  border:  "#1e2d45",
+  text:    "#e2e8f0",
+  muted:   "#64748b",
+  hover:   "#1e293b",
+  active:  "#B8953A",
+  activeBg:"rgba(184,149,58,0.12)",
+  gold:    "#D4AF5A",
+};
+
+function NavIcon({ path }) {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+      <path d={path}/>
+    </svg>
+  );
+}
 
 export default function AdminShell({ children }) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
-  const [dark, setDark] = useState(true);
   const [openGroups, setOpenGroups] = useState({});
   const [search, setSearch] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const searchRef = useRef(null);
 
-  /* restore theme + sidebar state */
   useEffect(() => {
-    const saved = localStorage.getItem("admin-theme");
-    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setDark(saved ? saved === "dark" : sysDark);
-    if (window.innerWidth > 768) setCollapsed(false);
-    else setCollapsed(true);
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setCollapsed(true);
+    }
   }, []);
 
-  const toggleTheme = () => {
-    setDark(d => {
-      localStorage.setItem("admin-theme", !d ? "dark" : "light");
-      return !d;
-    });
-  };
+  const isActive = (href) => pathname === href || pathname.startsWith(href + "/");
+  const inPages  = pathname.startsWith("/admin/pages");
+
+  const allItems = PAGE_GROUPS.flatMap(g => g.items);
+  const searchResults = search.trim() ? allItems.filter(p => p.label.toLowerCase().includes(search.toLowerCase())) : [];
 
   const toggleGroup = (g) => setOpenGroups(p => ({ ...p, [g]: !p[g] }));
 
-  const isActive = (href) => pathname === href || pathname.startsWith(href + "/");
+  // Auto-open active group
+  useEffect(() => {
+    PAGE_GROUPS.forEach(g => {
+      if (g.items.some(i => isActive(i.href))) {
+        setOpenGroups(p => ({ ...p, [g.group]: true }));
+      }
+    });
+  }, [pathname]);
 
-  const inPagesSection = pathname.startsWith("/admin/pages");
+  const sidebarW = collapsed ? 64 : 248;
 
-  /* filter search */
-  const allPages = PAGE_GROUPS.flatMap(g => g.items);
-  const searchResults = search.trim()
-    ? allPages.filter(p => p.label.toLowerCase().includes(search.toLowerCase()))
-    : [];
-
-  /* theme tokens */
-  const t = dark ? {
-    bg:       "#111827",
-    sidebar:  "#1f2937",
-    border:   "#3B475C",
-    text:     "#F1F5F9",
-    muted:    "#A6B7D2",
-    secondary:"#3D4859",
-    hover:    "#48566a",
-    active:   "#695CFE",
-    shadow:   "rgba(0,0,0,0.3)",
-  } : {
-    bg:       "#f9fafb",
-    sidebar:  "#ffffff",
-    border:   "#E2E8F0",
-    text:     "#1F2936",
-    muted:    "#798EAE",
-    secondary:"#ECECFD",
-    hover:    "#e2e2fb",
-    active:   "#695CFE",
-    shadow:   "rgba(0,0,0,0.05)",
-  };
-
-  const sidebarW = collapsed ? 72 : 260;
+  const linkStyle = (active) => ({
+    display: "flex", alignItems: "center", gap: 10,
+    padding: collapsed ? "10px 0" : "9px 12px",
+    borderRadius: 10, textDecoration: "none",
+    color: active ? D.gold : D.muted,
+    background: active ? D.activeBg : "transparent",
+    borderLeft: active ? `2px solid ${D.active}` : "2px solid transparent",
+    fontSize: 13, fontWeight: active ? 600 : 500,
+    transition: "all 0.18s",
+    justifyContent: collapsed ? "center" : "flex-start",
+    whiteSpace: "nowrap",
+  });
 
   return (
-    <div style={{ display:"flex", minHeight:"100vh", background:t.bg, color:t.text, fontFamily:"Poppins,system-ui,sans-serif" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: D.bg, fontFamily: "system-ui,-apple-system,sans-serif", color: D.text }}>
 
       {/* ── Mobile overlay ── */}
-      {!collapsed && (
-        <div onClick={() => setCollapsed(true)}
-          style={{ display:"none", position:"fixed", inset:0, zIndex:10, background:"rgba(0,0,0,0.6)",
-            ...(typeof window !== "undefined" && window.innerWidth <= 768 ? { display:"block" } : {}) }}
-        />
+      {mobileOpen && (
+        <div onClick={() => setMobileOpen(false)}
+          style={{ position: "fixed", inset: 0, zIndex: 30, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} />
       )}
 
       {/* ── SIDEBAR ── */}
       <aside style={{
-        position:"sticky", top:0, height:"100vh", flexShrink:0, display:"flex", flexDirection:"column",
-        width:sidebarW, background:t.sidebar, borderRight:`1px solid ${t.border}`,
-        boxShadow:`0 3px 9px ${t.shadow}`, transition:"width 0.35s ease", overflow:"hidden",
-        zIndex:20,
+        position: "fixed", top: 0, left: 0, height: "100vh",
+        width: sidebarW, background: D.sidebar,
+        borderRight: `1px solid ${D.border}`,
+        display: "flex", flexDirection: "column",
+        transition: "width 0.25s ease, transform 0.25s ease",
+        zIndex: 40, overflow: "hidden",
+        transform: mobileOpen ? "translateX(0)" : undefined,
       }}>
 
-        {/* Header */}
-        <div style={{ padding:"18px 14px", display:"flex", alignItems:"center", justifyContent:"space-between", borderBottom:`1px solid ${t.border}`, position:"relative", minHeight:72 }}>
+        {/* Logo / header */}
+        <div style={{ padding: collapsed ? "16px 0" : "16px 14px", display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between", borderBottom: `1px solid ${D.border}`, minHeight: 64, flexShrink: 0 }}>
           {!collapsed && (
-            <img src="/pws-logo-dark.png" alt="PWS" style={{ height:38, objectFit:"contain", transition:"opacity 0.3s", opacity:collapsed?0:1, maxWidth:130 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/pws-logo-dark.png" alt="PWS" style={{ height: 30, objectFit: "contain" }} />
+            </div>
           )}
           <button onClick={() => setCollapsed(p => !p)}
-            style={{ width:38, height:38, border:"none", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:8, color:t.text, background:t.secondary, flexShrink:0, marginLeft:"auto", transition:"all 0.3s" }}>
-            <span className="material-symbols-rounded" style={{ fontSize:22, transition:"transform 0.35s", transform:collapsed?"rotate(180deg)":"rotate(0deg)" }}>chevron_left</span>
+            style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${D.border}`, background: "transparent", color: D.muted, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = D.hover; e.currentTarget.style.color = D.text; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = D.muted; }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {collapsed ? <path d="M9 18l6-6-6-6"/> : <path d="M15 18l-6-6 6-6"/>}
+            </svg>
           </button>
         </div>
 
-        {/* Content */}
-        <div style={{ flex:1, padding:"16px 12px", overflowY:"auto", overflowX:"hidden", scrollbarWidth:collapsed?"none":"thin", scrollbarColor:`${t.muted} transparent` }}>
+        {/* Scrollable content */}
+        <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", padding: collapsed ? "12px 8px" : "12px 10px", scrollbarWidth: "none" }}>
 
-          {/* Search */}
-          <div onClick={() => collapsed && setCollapsed(false)}
-            style={{ display:"flex", alignItems:"center", gap:10, borderRadius:8, padding:"0 12px", minHeight:44, background:t.secondary, marginBottom:16, cursor:collapsed?"pointer":"default", whiteSpace:"nowrap", transition:"background 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.background=t.hover}
-            onMouseLeave={e => e.currentTarget.style.background=t.secondary}>
-            <span className="material-symbols-rounded" style={{ color:t.muted, fontSize:20, flexShrink:0 }}>search</span>
-            {!collapsed && (
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search pages…"
-                style={{ background:"none", border:"none", outline:"none", color:t.text, fontSize:13, width:"100%", fontFamily:"inherit" }}
-                onClick={e => e.stopPropagation()} />
-            )}
-          </div>
+          {/* Search — only when expanded */}
+          {!collapsed && (
+            <div style={{ position: "relative", marginBottom: 12 }}>
+              <svg style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={D.muted} strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input ref={searchRef} value={search} onChange={e => setSearch(e.target.value)} placeholder="Search pages…"
+                style={{ width: "100%", padding: "8px 10px 8px 32px", borderRadius: 8, background: D.hover, border: `1px solid ${D.border}`, color: D.text, fontSize: 12.5, outline: "none", boxSizing: "border-box", fontFamily: "inherit" }} />
+            </div>
+          )}
 
           {/* Search results */}
           {search && !collapsed && searchResults.length > 0 && (
-            <div style={{ marginBottom:12 }}>
+            <div style={{ marginBottom: 10, borderBottom: `1px solid ${D.border}`, paddingBottom: 10 }}>
               {searchResults.map(p => (
                 <Link key={p.href} href={p.href} onClick={() => setSearch("")}
-                  style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 12px", borderRadius:8, textDecoration:"none", color:isActive(p.href)?"#fff":t.text, background:isActive(p.href)?t.active:"transparent", marginBottom:2, fontSize:13, transition:"all 0.2s" }}
-                  onMouseEnter={e => { if(!isActive(p.href)) e.currentTarget.style.background=t.hover; }}
-                  onMouseLeave={e => { if(!isActive(p.href)) e.currentTarget.style.background="transparent"; }}>
-                  <span className="material-symbols-rounded" style={{ fontSize:18 }}>article</span>
+                  style={{ ...linkStyle(isActive(p.href)), marginBottom: 2 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
                   {p.label}
                 </Link>
               ))}
             </div>
           )}
 
-          {/* Top nav items */}
-          <ul style={{ listStyle:"none", display:"flex", flexDirection:"column", gap:3, padding:0, margin:"0 0 8px" }}>
+          {/* Top nav */}
+          <div style={{ marginBottom: 6 }}>
             {TOP_NAV.map(item => (
-              <li key={item.href}>
-                <Link href={item.href}
-                  style={{ display:"flex", alignItems:"center", gap:12, padding:"11px 12px", borderRadius:8, textDecoration:"none", whiteSpace:"nowrap", color:isActive(item.href)?"#fff":t.text, background:isActive(item.href)?t.active:"transparent", fontSize:13, fontWeight:500, transition:"all 0.2s" }}
-                  onMouseEnter={e => { if(!isActive(item.href)) e.currentTarget.style.background=t.hover; }}
-                  onMouseLeave={e => { if(!isActive(item.href)) e.currentTarget.style.background="transparent"; }}>
-                  <span className="material-symbols-rounded" style={{ fontSize:20, flexShrink:0 }}>{item.icon}</span>
-                  {!collapsed && <span>{item.label}</span>}
-                </Link>
-              </li>
+              <Link key={item.href} href={item.href}
+                style={{ ...linkStyle(isActive(item.href)), marginBottom: 2 }}
+                onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.background = D.hover; e.currentTarget.style.color = D.text; } }}
+                onMouseLeave={e => { if (!isActive(item.href)) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = D.muted; } }}>
+                <NavIcon path={item.icon} />
+                {!collapsed && item.label}
+              </Link>
             ))}
-          </ul>
+          </div>
 
           {/* Divider */}
-          <div style={{ height:1, background:t.border, margin:"8px 4px 12px" }} />
+          <div style={{ height: 1, background: D.border, margin: "8px 0 10px" }} />
 
-          {/* Pages section label */}
+          {/* Pages label */}
           {!collapsed && (
-            <p style={{ color:t.muted, fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.12em", padding:"0 4px", marginBottom:8 }}>Pages</p>
+            <p style={{ color: D.muted, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", marginBottom: 6, paddingLeft: 12 }}>Pages</p>
           )}
 
-          {/* Page groups */}
+          {/* Groups */}
           {PAGE_GROUPS.map(g => {
-            const groupOpen = openGroups[g.group] !== undefined ? openGroups[g.group] : inPagesSection;
+            const isGroupOpen = openGroups[g.group] !== undefined ? openGroups[g.group] : inPages;
             const hasActive = g.items.some(i => isActive(i.href));
+
             return (
-              <div key={g.group} style={{ marginBottom:4 }}>
-                {/* Group header */}
+              <div key={g.group} style={{ marginBottom: 2 }}>
                 <button onClick={() => !collapsed && toggleGroup(g.group)}
-                  style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"10px 12px", borderRadius:8, border:"none", cursor:"pointer", color:hasActive?"#fff":t.text, background:hasActive && collapsed ? t.active:"transparent", fontSize:13, fontWeight:500, whiteSpace:"nowrap", transition:"all 0.2s", fontFamily:"inherit" }}
-                  onMouseEnter={e => { if(!hasActive||!collapsed) e.currentTarget.style.background=t.hover; }}
-                  onMouseLeave={e => { e.currentTarget.style.background=(hasActive&&collapsed)?t.active:"transparent"; }}>
-                  <span className="material-symbols-rounded" style={{ fontSize:20, flexShrink:0, color:hasActive?(!collapsed?"inherit":"#fff"):t.muted }}>{g.icon}</span>
+                  style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: collapsed ? "10px 0" : "8px 12px", borderRadius: 10, border: "none", cursor: "pointer", background: "transparent", color: hasActive ? D.gold : D.muted, fontSize: 12.5, fontWeight: hasActive ? 600 : 500, whiteSpace: "nowrap", transition: "all 0.18s", fontFamily: "inherit", justifyContent: collapsed ? "center" : "flex-start" }}
+                  onMouseEnter={e => { if (!hasActive) { e.currentTarget.style.background = D.hover; e.currentTarget.style.color = D.text; } }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = hasActive ? D.gold : D.muted; }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ flexShrink: 0 }}><path d="M3 7h18M3 12h18M3 17h18" strokeLinecap="round"/></svg>
                   {!collapsed && (
                     <>
-                      <span style={{ flex:1, textAlign:"left" }}>{g.group}</span>
-                      <span className="material-symbols-rounded" style={{ fontSize:16, color:t.muted, transition:"transform 0.25s", transform:groupOpen?"rotate(90deg)":"rotate(0deg)" }}>chevron_right</span>
+                      <span style={{ flex: 1, textAlign: "left" }}>{g.group}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transition: "transform 0.2s", transform: isGroupOpen ? "rotate(90deg)" : "rotate(0deg)" }}><path d="M9 18l6-6-6-6"/></svg>
                     </>
                   )}
                 </button>
 
-                {/* Sub-items */}
-                {!collapsed && groupOpen && (
-                  <ul style={{ listStyle:"none", padding:"2px 0 2px 16px", margin:0, display:"flex", flexDirection:"column", gap:2 }}>
-                    {g.items.map(item => (
-                      <li key={item.href}>
-                        <Link href={item.href}
-                          style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 12px", borderRadius:8, textDecoration:"none", color:isActive(item.href)?"#fff":t.text, background:isActive(item.href)?t.active:"transparent", fontSize:12.5, whiteSpace:"nowrap", transition:"all 0.2s" }}
-                          onMouseEnter={e => { if(!isActive(item.href)) e.currentTarget.style.background=t.hover; }}
-                          onMouseLeave={e => { if(!isActive(item.href)) e.currentTarget.style.background="transparent"; }}>
-                          <span style={{ width:5, height:5, borderRadius:"50%", background:isActive(item.href)?"#fff":t.muted, flexShrink:0 }} />
+                {!collapsed && isGroupOpen && (
+                  <div style={{ paddingLeft: 14, marginTop: 2 }}>
+                    <div style={{ borderLeft: `1px solid ${D.border}`, paddingLeft: 10 }}>
+                      {g.items.map(item => (
+                        <Link key={item.href} href={item.href}
+                          style={{ ...linkStyle(isActive(item.href)), fontSize: 12.5, padding: "7px 10px", marginBottom: 1, borderLeft: isActive(item.href) ? "none" : "none" }}
+                          onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.background = D.hover; e.currentTarget.style.color = D.text; } }}
+                          onMouseLeave={e => { if (!isActive(item.href)) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = D.muted; } }}>
+                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: isActive(item.href) ? D.active : D.border, flexShrink: 0 }} />
                           {item.label}
                         </Link>
-                      </li>
-                    ))}
-                  </ul>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             );
           })}
         </div>
 
-        {/* Footer — theme toggle + sign out */}
-        <div style={{ padding:"14px 12px", borderTop:`1px solid ${t.border}`, whiteSpace:"nowrap" }}>
-          {/* Theme toggle */}
-          <button onClick={toggleTheme}
-            style={{ width:"100%", minHeight:44, borderRadius:8, display:"flex", alignItems:"center", gap:10, padding:"0 12px", border:"none", cursor:"pointer", color:t.text, background:t.secondary, fontFamily:"inherit", fontSize:13, fontWeight:500, transition:"background 0.2s", marginBottom:8 }}
-            onMouseEnter={e => e.currentTarget.style.background=t.hover}
-            onMouseLeave={e => e.currentTarget.style.background=t.secondary}>
-            <span className="material-symbols-rounded" style={{ fontSize:20, flexShrink:0 }}>{dark?"light_mode":"dark_mode"}</span>
-            {!collapsed && (
-              <>
-                <span style={{ flex:1, textAlign:"left" }}>{dark?"Light Mode":"Dark Mode"}</span>
-                {/* Toggle track */}
-                <div style={{ width:44, height:22, borderRadius:999, background:dark?"#695CFE":"#c3d1ec", position:"relative", transition:"background 0.3s", flexShrink:0 }}>
-                  <div style={{ position:"absolute", top:3, left:3, width:16, height:16, borderRadius:"50%", background:"#fff", boxShadow:"0 2px 4px rgba(0,0,0,0.15)", transition:"transform 0.3s", transform:dark?"translateX(22px)":"translateX(0)" }} />
-                </div>
-              </>
-            )}
-          </button>
-
-          {/* Sign out */}
+        {/* Footer */}
+        <div style={{ padding: collapsed ? "12px 8px" : "12px 10px", borderTop: `1px solid ${D.border}`, flexShrink: 0 }}>
           {!collapsed && (
-            <button onClick={() => signOut({ callbackUrl:"/admin/login" })}
-              style={{ width:"100%", minHeight:40, borderRadius:8, display:"flex", alignItems:"center", gap:10, padding:"0 12px", border:`1px solid ${t.border}`, cursor:"pointer", color:t.muted, background:"transparent", fontFamily:"inherit", fontSize:12, transition:"all 0.2s" }}
-              onMouseEnter={e => { e.currentTarget.style.background="rgba(220,38,38,0.1)"; e.currentTarget.style.color="#fca5a5"; e.currentTarget.style.borderColor="rgba(220,38,38,0.3)"; }}
-              onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.color=t.muted; e.currentTarget.style.borderColor=t.border; }}>
-              <span className="material-symbols-rounded" style={{ fontSize:18 }}>logout</span>
-              Sign Out · {session?.user?.name}
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 10, background: D.hover, marginBottom: 8 }}>
+              <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#B8953A,#D4AF5A)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 11, fontWeight: 700, color: "#fff" }}>
+                {(session?.user?.name || "A")[0].toUpperCase()}
+              </div>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <p style={{ color: D.text, fontSize: 12, fontWeight: 600, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{session?.user?.name || "Admin"}</p>
+                <p style={{ color: D.muted, fontSize: 10, margin: 0 }}>Administrator</p>
+              </div>
+            </div>
           )}
+          <button onClick={() => signOut({ callbackUrl: "/admin/login" })}
+            style={{ width: "100%", padding: collapsed ? "10px 0" : "8px 12px", borderRadius: 10, border: "none", background: "transparent", color: D.muted, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "flex-start", gap: 8, fontSize: 12.5, fontFamily: "inherit", transition: "all 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(239,68,68,0.1)"; e.currentTarget.style.color = "#fca5a5"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = D.muted; }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            {!collapsed && "Sign Out"}
+          </button>
         </div>
       </aside>
 
       {/* ── MAIN ── */}
-      <div style={{ flex:1, display:"flex", flexDirection:"column", minWidth:0 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, marginLeft: sidebarW, transition: "margin-left 0.25s ease" }}>
 
-        {/* Top bar */}
-        <header style={{ position:"sticky", top:0, zIndex:15, height:60, display:"flex", alignItems:"center", padding:"0 20px", gap:12, background:t.sidebar, borderBottom:`1px solid ${t.border}`, boxShadow:`0 1px 3px ${t.shadow}` }}>
-          {/* Mobile hamburger */}
-          <button onClick={() => setCollapsed(p => !p)}
-            style={{ display:"none", width:38, height:38, border:"none", cursor:"pointer", alignItems:"center", justifyContent:"center", borderRadius:8, color:t.text, background:t.secondary, flexShrink:0,
-              ...(typeof window !== "undefined" && window.innerWidth <= 768 ? { display:"flex" } : {}) }}>
-            <span className="material-symbols-rounded" style={{ fontSize:22 }}>menu</span>
+        {/* Topbar */}
+        <header style={{ position: "sticky", top: 0, zIndex: 20, height: 56, display: "flex", alignItems: "center", padding: "0 20px", gap: 12, background: D.sidebar, borderBottom: `1px solid ${D.border}` }}>
+          {/* Mobile burger */}
+          <button onClick={() => setMobileOpen(p => !p)}
+            style={{ display: "none", width: 36, height: 36, border: `1px solid ${D.border}`, background: "transparent", borderRadius: 8, color: D.muted, cursor: "pointer", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+            className="mobile-burger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
 
-          {/* Breadcrumb path */}
-          <span style={{ color:t.muted, fontSize:13 }}>
-            Pacific World School <span style={{ color:t.border }}>›</span>{" "}
-            <span style={{ color:t.text, fontWeight:600 }}>Admin Panel</span>
-          </span>
+          <div style={{ flex: 1 }}>
+            <span style={{ color: D.muted, fontSize: 12 }}>
+              Pacific World School
+              <span style={{ color: D.border, margin: "0 6px" }}>›</span>
+              <span style={{ color: D.text, fontWeight: 600 }}>Admin CMS</span>
+            </span>
+          </div>
 
-          <div style={{ flex:1 }} />
-
-          {/* View site */}
           <a href="/" target="_blank" rel="noopener noreferrer"
-            style={{ display:"flex", alignItems:"center", gap:6, padding:"6px 14px", borderRadius:8, border:`1px solid ${t.border}`, color:t.muted, fontSize:12, textDecoration:"none", fontWeight:500, transition:"all 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor=t.active; e.currentTarget.style.color=t.active; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor=t.border; e.currentTarget.style.color=t.muted; }}>
-            <span className="material-symbols-rounded" style={{ fontSize:15 }}>open_in_new</span>
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 8, border: `1px solid ${D.border}`, color: D.muted, fontSize: 12, textDecoration: "none", fontWeight: 500, transition: "all 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = D.active; e.currentTarget.style.color = D.gold; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = D.border; e.currentTarget.style.color = D.muted; }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
             View Site
           </a>
         </header>
 
-        {/* Page content */}
-        <main style={{ flex:1, overflowY:"auto", padding:"28px 28px 40px", background:t.bg }}>
+        {/* Content */}
+        <main style={{ flex: 1, overflowY: "auto", padding: "24px 24px 40px", background: D.bg }}>
           {children}
         </main>
       </div>
 
-      {/* Google Material Symbols font */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-        .material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-weight: normal; font-style: normal; display: inline-block; line-height: 1; text-transform: none; letter-spacing: normal; word-wrap: normal; white-space: nowrap; direction: ltr; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         @media (max-width: 768px) {
-          aside { position: fixed !important; top: 0; left: 0; height: 100% !important; transition: transform 0.35s ease !important; width: 260px !important; }
+          .mobile-burger { display: flex !important; }
+          aside { transform: translateX(-100%) !important; }
+          aside.mobile-open { transform: translateX(0) !important; }
+          [data-main] { margin-left: 0 !important; }
         }
       `}</style>
     </div>

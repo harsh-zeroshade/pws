@@ -37,23 +37,21 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div className="relative -mt-[70px]" style={{ background: "#060F1E" }}>
+    <div className="relative -mt-[64px]" style={{ background: "#060F1E" }}>
       {/* ── Full-screen video section ── */}
-      <div className="relative h-screen min-h-[600px] overflow-hidden">
+      <div className="relative h-screen min-h-[600px] overflow-hidden" style={{ background: "#060F1E" }}>
 
-        {/* Video */}
+        {/* Video — always rendered, fades in when loaded */}
         <video
           autoPlay loop muted playsInline
           onLoadedData={() => setVideoLoaded(true)}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ transition: "opacity 1s", opacity: videoLoaded ? 1 : 0 }}
+          style={{ opacity: videoLoaded ? 1 : 0, transition: "opacity 1.2s ease" }}
           src={cms.videoUrl || "/hero-video.mp4"}
         />
 
-        {/* Poster fallback */}
-        {!videoLoaded && (
-          <div className="absolute inset-0 bg-[#060F1E]" />
-        )}
+        {/* Dark placeholder while video loads */}
+        <div className="absolute inset-0 bg-[#060F1E] -z-10" />
 
         {/* Layered gradients */}
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(6,15,30,0.65) 0%, rgba(6,15,30,0.2) 45%, rgba(6,15,30,0.92) 100%)" }} />
@@ -130,36 +128,35 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.7 }}
-            className="flex flex-col xs:flex-row gap-3 justify-center items-center w-full max-w-sm sm:max-w-none"
+            className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center w-full px-4 sm:px-0 max-w-xs sm:max-w-none"
           >
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full xs:w-auto">
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
               <Link href="/admission/brochure"
-                className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-bold text-[14px] sm:text-[15px] font-sans w-full xs:w-auto"
+                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-[14px] sm:text-[15px] font-sans w-full"
                 style={{ background: "linear-gradient(135deg, #B8953A, #D4AF5A)", color: "#fff", boxShadow: "0 8px 32px rgba(184,149,58,0.4)" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
                 {cms.cta1Text || "Apply for 2026–27"}
               </Link>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full xs:w-auto">
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
               <Link href="/about/school"
-                className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-semibold text-[14px] sm:text-[15px] font-sans w-full xs:w-auto transition-colors"
-                style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>
+                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl font-semibold text-[14px] sm:text-[15px] font-sans w-full transition-colors"
+                style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", backdropFilter: "blur(8px)" }}>
                 {cms.cta2Text || "Explore School"}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Scroll cue */}
+          {/* Scroll cue — only show on taller screens */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.6 }}
-            className="absolute bottom-24 sm:bottom-28 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
+            className="hidden sm:flex absolute bottom-20 left-1/2 -translate-x-1/2 flex-col items-center gap-1.5"
           >
             <span className="text-white/20 text-[8px] tracking-[0.45em] uppercase font-sans">Scroll</span>
             <motion.div animate={{ y: [0, 7, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-              className="w-px h-8 sm:h-10" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)" }} />
+              className="w-px h-8" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)" }} />
           </motion.div>
         </div>
 

@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 export default function ChairpersonEditor() {
@@ -25,7 +25,7 @@ export default function ChairpersonEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Edit the chairperson profile and message content.</p>
         </div>
         <SectionCard title="Profile" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           <TextField label="Full Name" value={data.name || ""} onChange={u("name")} />
           <TextField label="Role / Designation" value={data.role || ""} onChange={u("role")} />
           <ImageField label="Portrait Photo" value={data.image || ""} onChange={u("image")} />

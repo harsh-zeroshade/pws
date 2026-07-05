@@ -101,7 +101,7 @@ export default function LeadershipPreview() {
               onClick={() => setModalIdx(i)}
               className="group rounded-3xl overflow-hidden border border-[#e8e4d9] hover:border-[#B8953A]/40 hover:shadow-xl hover:shadow-[#B8953A]/8 transition-all duration-400 cursor-pointer"
             >
-              <div className="relative h-80 overflow-hidden bg-[#F5F0E8]">
+              <div className="relative h-56 sm:h-72 lg:h-80 overflow-hidden bg-[#F5F0E8]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={l.img}

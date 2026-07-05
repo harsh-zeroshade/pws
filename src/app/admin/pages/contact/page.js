@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 export default function ContactEditor() {
@@ -26,7 +26,7 @@ export default function ContactEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Used in the top bar, footer, and contact page.</p>
         </div>
         <SectionCard title="Phone & Email" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           <TextField label="Front Desk Phone 1" value={data.phone1 || ""} onChange={u("phone1")} />
           <TextField label="Front Desk Phone 2" value={data.phone2 || ""} onChange={u("phone2")} />
           <TextField label="Admission Phone" value={data.admissionPhone || ""} onChange={u("admissionPhone")} />

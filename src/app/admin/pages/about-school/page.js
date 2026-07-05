@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField, ListField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField, ListField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 function HeroEditor() {
@@ -12,7 +12,7 @@ function HeroEditor() {
   const u = k => v => setData(p => ({ ...p, [k]: v }));
   return (
     <SectionCard title="Hero Section" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>✓ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
       <TextField label="Title" value={data.title || ""} onChange={u("title")} />
       <TextField label="Subtitle" value={data.subtitle || ""} onChange={u("subtitle")} multiline />
       <ImageField label="Background Image" value={data.bgImage || ""} onChange={u("bgImage")} />
@@ -30,7 +30,7 @@ function MissionEditor() {
   const u = k => v => setData(p => ({ ...p, [k]: v }));
   return (
     <SectionCard title="Mission & Vision" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>✓ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
       <TextField label="Mission Title" value={data.missionTitle || ""} onChange={u("missionTitle")} />
       <TextField label="Mission Text" value={data.missionText || ""} onChange={u("missionText")} multiline />
       <TextField label="Vision Title" value={data.visionTitle || ""} onChange={u("visionTitle")} />

@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 const EMPTY = { name: "", class: "", percentage: "", subject: "", image: "" };
@@ -18,7 +18,7 @@ function TopperRow({ topper, index, onChange, onRemove }) {
         {inp(topper.class, "Class / Stream", "class")}
         {inp(topper.percentage, "% / Score", "percentage")}
         {inp(topper.subject, "Subject / Board", "subject")}
-        <button onClick={() => onRemove(index)} style={{ padding: "6px 10px", borderRadius: 6, background: "rgba(220,38,38,0.12)", color: "#fca5a5", border: "1px solid rgba(220,38,38,0.25)", cursor: "pointer", fontSize: 12 }}>✕</button>
+        <button onClick={() => onRemove(index)} style={{ padding: "6px 10px", borderRadius: 6, background: "rgba(220,38,38,0.12)", color: "#fca5a5", border: "1px solid rgba(220,38,38,0.25)", cursor: "pointer", fontSize: 12 }}>âœ•</button>
       </div>
       <ImageField label="Student Photo" value={topper.image || ""} onChange={v => u("image")(v)} />
     </div>
@@ -41,7 +41,7 @@ export default function TopperDetailsEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Add board exam toppers with their photo and scores.</p>
         </div>
         <SectionCard title={`Toppers (${toppers.length})`} onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           {toppers.map((t, i) => (
             <TopperRow key={i} topper={t} index={i} onChange={update} onRemove={remove} />
           ))}

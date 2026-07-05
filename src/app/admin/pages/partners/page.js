@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ export default function PartnersEditor() {
           <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, margin:0 }}>Manage logos shown in the scrolling marquee on the home page.</p>
         </div>
         <SectionCard title="Partner Logos" onSave={save} saving={saving}>
-          {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>✓ Saved</div>}
+          {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))", gap:14 }}>
             {logos.map((url, i) => (
               <div key={i} style={{ background:"rgba(255,255,255,0.04)", borderRadius:8, padding:12, border:"1px solid rgba(255,255,255,0.08)" }}>

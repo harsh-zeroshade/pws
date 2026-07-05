@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField, ListField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField, ListField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 export default function CbseEditor() {
@@ -20,7 +20,7 @@ export default function CbseEditor() {
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>CBSE Curriculum Page</h1>
         </div>
         <SectionCard title="Hero Section" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           <TextField label="Page Title" value={data.heroTitle || ""} onChange={u("heroTitle")} />
           <TextField label="Subtitle" value={data.heroSubtitle || ""} onChange={u("heroSubtitle")} multiline />
           <ImageField label="Hero Background Image" value={data.heroBg || ""} onChange={u("heroBg")} />

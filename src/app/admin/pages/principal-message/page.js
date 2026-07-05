@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 export default function PrincipalEditor() {
@@ -24,7 +24,7 @@ export default function PrincipalEditor() {
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Principal&apos;s Message</h1>
         </div>
         <SectionCard title="Profile" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           <TextField label="Full Name" value={data.name || ""} onChange={u("name")} />
           <TextField label="Role" value={data.role || ""} onChange={u("role")} />
           <ImageField label="Portrait Photo" value={data.image || ""} onChange={u("image")} />

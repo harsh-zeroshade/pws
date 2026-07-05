@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 const EMPTY = { title: "", tag: "", desc: "", img: "" };
@@ -21,7 +21,7 @@ export default function AmenitiesEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Manage campus amenity cards with images.</p>
         </div>
         <SectionCard title={`Amenities (${items.length})`} onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           {items.map((a, i) => (
             <div key={i} style={{ background: "rgba(255,255,255,0.03)", borderRadius: 10, padding: 14, marginBottom: 10, border: "1px solid rgba(255,255,255,0.07)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>

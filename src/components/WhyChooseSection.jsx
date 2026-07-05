@@ -88,6 +88,13 @@ const REASONS = [
 ];
 
 const VISIBLE = 4;
+// On mobile show 1 card, on tablet show 2, on desktop show 4
+function getVisible() {
+  if (typeof window === "undefined") return 4;
+  if (window.innerWidth < 640) return 1;
+  if (window.innerWidth < 1024) return 2;
+  return 4;
+}
 
 export default function WhyChooseSection() {
   const sectionRef = useRef(null);
@@ -95,7 +102,15 @@ export default function WhyChooseSection() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [modalIdx, setModalIdx] = useState(null);
+  const [visible, setVisible] = useState(4);
   const total = REASONS.length;
+
+  useEffect(() => {
+    const update = () => setVisible(getVisible());
+    update();
+    window.addEventListener("resize", update, { passive: true });
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const next = useCallback(() => setCurrent((p) => (p + 1) % total), [total]);
   const prev = useCallback(() => setCurrent((p) => (p - 1 + total) % total), [total]);
@@ -106,7 +121,7 @@ export default function WhyChooseSection() {
     return () => clearInterval(id);
   }, [paused, next]);
 
-  const visibleIdx = Array.from({ length: VISIBLE }, (_, k) => (current + k) % total);
+  const visibleIdx = Array.from({ length: visible }, (_, k) => (current + k) % total);
 
   return (
     <section
@@ -153,7 +168,7 @@ export default function WhyChooseSection() {
               aria-label="Previous">
               <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
-            <span className="text-white/40 text-[13px] font-sans tabular-nums w-14 text-center">
+            <span className="text-white/40 text-[13px] font-sans tabular-nums w-16 text-center">
               <span className="text-white font-semibold">{String(current+1).padStart(2,"0")}</span> / {String(total).padStart(2,"0")}
             </span>
             <button onClick={() => { next(); setPaused(true); setTimeout(()=>setPaused(false),4000); }}
@@ -181,7 +196,7 @@ export default function WhyChooseSection() {
               animate={{ opacity:1, x:0 }}
               exit={{ opacity:0, x:-60 }}
               transition={{ duration:.45, ease:[.22,1,.36,1] }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
+              className={`grid gap-4 sm:gap-5 ${visible === 1 ? "grid-cols-1" : visible === 2 ? "grid-cols-2" : "grid-cols-2 lg:grid-cols-4"}`}
             >
               {visibleIdx.map((idx, pos) => {
                 const item = REASONS[idx];
@@ -211,7 +226,7 @@ export default function WhyChooseSection() {
                     }}
                   >
                     {/* Image */}
-                    <div style={{ height: 200, position: "relative", overflow: "hidden", background: "#060f1e" }}>
+                    <div style={{ height: visible === 1 ? 240 : 200, position: "relative", overflow: "hidden", background: "#060f1e" }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.img}

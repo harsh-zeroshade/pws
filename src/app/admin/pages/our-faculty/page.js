@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, AdminTable, TextField } from "@/components/admin/ContentEditor";
+import { SectionCard, AdminTable, TextField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ function EditModal({ member, onSave, onClose }) {
       <div style={{ background:C.card, borderRadius:16, border:`1px solid ${C.border}`, width:"100%", maxWidth:520, boxShadow:"0 24px 64px rgba(0,0,0,0.5)" }}>
         <div style={{ padding:"18px 22px", borderBottom:`1px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <h3 style={{ color:C.text, fontSize:15, fontWeight:700, margin:0 }}>Edit Faculty Member</h3>
-          <button onClick={onClose} style={{ background:"none", border:"none", color:C.muted, cursor:"pointer", fontSize:20, lineHeight:1 }}>✕</button>
+          <button onClick={onClose} style={{ background:"none", border:"none", color:C.muted, cursor:"pointer", fontSize:20, lineHeight:1 }}>âœ•</button>
         </div>
         <div style={{ padding:"20px 22px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
           {[["name","Full Name"],["role","Designation"],["exp","Experience"],["qual","Qualification"]].map(([k,lbl]) => (

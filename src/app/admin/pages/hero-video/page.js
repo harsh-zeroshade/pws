@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard } from "@/components/admin/ContentEditor";
+import { SectionCard , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 import { useState } from "react";
 
@@ -32,7 +32,7 @@ export default function HeroVideoEditor() {
         </div>
 
         <SectionCard title="Background Video" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved successfully</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved successfully</div>}
 
           {/* Current video preview */}
           {data.videoUrl && (
@@ -53,7 +53,7 @@ export default function HeroVideoEditor() {
           {/* Upload */}
           <label style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 20px", borderRadius: 9, background: uploading ? "rgba(184,149,58,0.4)" : "#B8953A", color: "#fff", fontSize: 13, fontWeight: 700, cursor: uploading ? "not-allowed" : "pointer" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
-            {uploading ? "Uploading…" : "Upload New Video"}
+            {uploading ? "Uploadingâ€¦" : "Upload New Video"}
             <input type="file" accept="video/*" onChange={handleVideoUpload} style={{ display: "none" }} />
           </label>
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, marginTop: 10 }}>Recommended: MP4, max 50MB. Video will autoplay muted on the home page.</p>

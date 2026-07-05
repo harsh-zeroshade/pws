@@ -1,12 +1,12 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ListField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ListField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 export default function RegistrationEditor() {
   const [data, setData, save, saving, saved] = useContent("admission", "registration", {
     heroTitle: "Registration Process",
-    heroSubtitle: "A simple, transparent admission process for 2026–27.",
+    heroSubtitle: "A simple, transparent admission process for 2026â€“27.",
     steps: [
       "Visit the school office or apply online at pwscampuscare.in",
       "Fill the registration form and submit required documents",
@@ -20,7 +20,7 @@ export default function RegistrationEditor() {
       "Residence Proof (Aadhar / Passport)",
       "Transfer Certificate (if applicable)",
     ],
-    registrationFee: "₹500 (non-refundable)",
+    registrationFee: "â‚¹500 (non-refundable)",
     contactForAdmission: "8899117704",
   });
   const u = k => v => setData(p => ({ ...p, [k]: v }));
@@ -32,7 +32,7 @@ export default function RegistrationEditor() {
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Registration Process Page</h1>
         </div>
         <SectionCard title="Hero" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           <TextField label="Page Title" value={data.heroTitle || ""} onChange={u("heroTitle")} />
           <TextField label="Subtitle" value={data.heroSubtitle || ""} onChange={u("heroSubtitle")} multiline />
         </SectionCard>

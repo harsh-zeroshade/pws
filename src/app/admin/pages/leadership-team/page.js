@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 const EMPTY = { name: "", role: "", org: "", img: "", quote: "" };
@@ -27,7 +27,7 @@ export default function LeadershipTeamEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Manage leadership cards shown on the Core Team page.</p>
         </div>
         <SectionCard title={`Leaders (${leaders.length})`} onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
           {leaders.map((l, i) => (
             <div key={i} style={{ background: "rgba(255,255,255,0.03)", borderRadius: 10, padding: 16, marginBottom: 12, border: "1px solid rgba(255,255,255,0.07)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>

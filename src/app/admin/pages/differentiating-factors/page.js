@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard } from "@/components/admin/ContentEditor";
+import { SectionCard , PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 const DEFAULT_FACTORS = [
@@ -37,7 +37,7 @@ export default function DifferentiatingFactorsEditor() {
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Manage the pillars shown on the Differentiating Factors page.</p>
         </div>
         <SectionCard title={`Factors (${factors.length})`} onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>✓ Saved successfully</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved successfully</div>}
 
           {/* Column headers */}
           <div style={{ display: "grid", gridTemplateColumns: "48px 1fr 2fr 36px", gap: 8, paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
@@ -55,7 +55,7 @@ export default function DifferentiatingFactorsEditor() {
               <textarea value={f.desc || ""} onChange={e => update(i, "desc", e.target.value)} placeholder="Description" rows={2}
                 style={{ ...inputStyle, resize: "vertical", fontFamily: "inherit" }} />
               <button onClick={() => remove(i)}
-                style={{ alignSelf: "flex-start", padding: "8px", borderRadius: 6, background: "rgba(220,38,38,0.12)", color: "#fca5a5", border: "1px solid rgba(220,38,38,0.25)", cursor: "pointer", fontSize: 13 }}>✕</button>
+                style={{ alignSelf: "flex-start", padding: "8px", borderRadius: 6, background: "rgba(220,38,38,0.12)", color: "#fca5a5", border: "1px solid rgba(220,38,38,0.25)", cursor: "pointer", fontSize: 13 }}>âœ•</button>
             </div>
           ))}
 

@@ -1,6 +1,6 @@
 "use client";
 import AdminGuard from "@/components/admin/AdminGuard";
-import { SectionCard, TextField, ImageField, ListField } from "@/components/admin/ContentEditor";
+import { SectionCard, TextField, ImageField, ListField, PageHeader } from "@/components/admin/ContentEditor";
 import { useContent } from "@/hooks/useContent";
 
 function HeroSection() {
@@ -85,10 +85,7 @@ export default function HomePageEditor() {
   return (
     <AdminGuard>
       <div style={{ maxWidth:800 }}>
-        <div style={{ marginBottom:24 }}>
-          <h1 style={{ color:"#fff", fontSize:22, fontWeight:900, margin:"0 0 4px", fontFamily:"Georgia,serif" }}>Home Page</h1>
-          <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, margin:0 }}>Edit the home page hero, stats, announcements and section headings.</p>
-        </div>
+        <PageHeader title="Home Page" desc="Edit the home page hero, stats, announcements and section headings." />
         <HeroSection />
         <StatsSection />
         <AnnouncementsSection />
