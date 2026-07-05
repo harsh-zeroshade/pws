@@ -15,12 +15,12 @@ export default function CbseEditor() {
 
   return (
     <AdminGuard>
-      <div style={{ maxWidth: 800 }}>
+      <div style={{ maxWidth: 960 }}>
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>CBSE Curriculum Page</h1>
         </div>
         <SectionCard title="Hero Section" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>Ã¢Å“â€œ Saved</div>}
           <TextField label="Page Title" value={data.heroTitle || ""} onChange={u("heroTitle")} />
           <TextField label="Subtitle" value={data.heroSubtitle || ""} onChange={u("heroSubtitle")} multiline />
           <ImageField label="Hero Background Image" value={data.heroBg || ""} onChange={u("heroBg")} />

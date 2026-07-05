@@ -1,0 +1,30 @@
+"use client";
+import AdminGuard from "@/components/admin/AdminGuard";
+import { SectionCard, TextField, ListField, PageHeader } from "@/components/admin/ContentEditor";
+import { useContent } from "@/hooks/useContent";
+const inp={width:"100%",padding:"8px 10px",borderRadius:6,background:"#0a0f1c",border:"1px solid #1e2d45",color:"#e2e8f0",fontSize:12.5,outline:"none",boxSizing:"border-box"};
+export default function POCSEditor() {
+  const [data,setData,save,saving,saved,err] = useContent("committee","pocso",{members:[{name:"Ms. Pooja Bose",role:"Head"},{name:"Mr. Navin Jain",role:"Member"},{name:"Ms. Pooja Suri",role:"Member"},{name:"Ms. Amandeep Kaur",role:"Member"},{name:"Ms. Shikha Yadav",role:"Member"},{name:"Ms. Shuchi Mahatta",role:"Member"},{name:"Ms. Suhani Chauhan",role:"School Counselor"},{name:"Coordinator",role:"Member"}],mandate:""});
+  const members=data.members||[];
+  const update=(i,k,v)=>setData(p=>({...p,members:members.map((x,idx)=>idx===i?{...x,[k]:v}:x)}));
+  const add=()=>setData(p=>({...p,members:[...members,{name:"",role:"Member"}]}));
+  const remove=(i)=>setData(p=>({...p,members:members.filter((_,idx)=>idx!==i)}));
+  return (
+    <AdminGuard><div style={{maxWidth:960}}>
+      <PageHeader title="POCSO Committee" desc="Protection of Children from Sexual Offences — committee members."/>
+      <SectionCard title={`Members (${members.length})`} onSave={save} saving={saving} saved={saved} error={err}>
+        <TextField label="Committee Mandate / Description" value={data.mandate||""} onChange={v=>setData(p=>({...p,mandate:v}))} multiline hint="Optional description shown on the page"/>
+        <div style={{marginTop:12}}>
+          {members.map((m,i)=>(
+            <div key={i} style={{display:"flex",gap:8,marginBottom:8,alignItems:"center"}}>
+              <input value={m.name||""} onChange={e=>update(i,"name",e.target.value)} placeholder="Full Name" style={{...inp,flex:2}}/>
+              <input value={m.role||""} onChange={e=>update(i,"role",e.target.value)} placeholder="Role" style={{...inp,flex:1}}/>
+              <button onClick={()=>remove(i)} style={{width:34,height:38,borderRadius:6,background:"rgba(239,68,68,0.1)",border:"1px solid rgba(239,68,68,0.3)",color:"#fca5a5",cursor:"pointer",fontSize:13,flexShrink:0}}>✕</button>
+            </div>
+          ))}
+          <button onClick={add} style={{marginTop:8,padding:"9px 18px",borderRadius:8,background:"rgba(184,149,58,0.12)",border:"1px solid rgba(184,149,58,0.3)",color:"#D4AF5A",cursor:"pointer",fontSize:13,fontWeight:600}}>+ Add Member</button>
+        </div>
+      </SectionCard>
+    </div></AdminGuard>
+  );
+}

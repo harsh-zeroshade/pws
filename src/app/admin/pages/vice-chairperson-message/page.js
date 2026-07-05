@@ -19,12 +19,12 @@ export default function ViceChairpersonEditor() {
 
   return (
     <AdminGuard>
-      <div style={{ maxWidth: 800 }}>
+      <div style={{ maxWidth: 960 }}>
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Pro-Vice Chairperson&apos;s Message</h1>
         </div>
         <SectionCard title="Profile" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>Ã¢Å“â€œ Saved</div>}
           <TextField label="Full Name" value={data.name || ""} onChange={u("name")} />
           <TextField label="Role" value={data.role || ""} onChange={u("role")} />
           <TextField label="Inspirational Quote" value={data.quote || ""} onChange={u("quote")} multiline />

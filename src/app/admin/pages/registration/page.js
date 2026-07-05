@@ -6,7 +6,7 @@ import { useContent } from "@/hooks/useContent";
 export default function RegistrationEditor() {
   const [data, setData, save, saving, saved] = useContent("admission", "registration", {
     heroTitle: "Registration Process",
-    heroSubtitle: "A simple, transparent admission process for 2026â€“27.",
+    heroSubtitle: "A simple, transparent admission process for 2026Ã¢â‚¬â€œ27.",
     steps: [
       "Visit the school office or apply online at pwscampuscare.in",
       "Fill the registration form and submit required documents",
@@ -20,19 +20,19 @@ export default function RegistrationEditor() {
       "Residence Proof (Aadhar / Passport)",
       "Transfer Certificate (if applicable)",
     ],
-    registrationFee: "â‚¹500 (non-refundable)",
+    registrationFee: "Ã¢â€šÂ¹500 (non-refundable)",
     contactForAdmission: "8899117704",
   });
   const u = k => v => setData(p => ({ ...p, [k]: v }));
 
   return (
     <AdminGuard>
-      <div style={{ maxWidth: 800 }}>
+      <div style={{ maxWidth: 960 }}>
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Registration Process Page</h1>
         </div>
         <SectionCard title="Hero" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>Ã¢Å“â€œ Saved</div>}
           <TextField label="Page Title" value={data.heroTitle || ""} onChange={u("heroTitle")} />
           <TextField label="Subtitle" value={data.heroSubtitle || ""} onChange={u("heroSubtitle")} multiline />
         </SectionCard>

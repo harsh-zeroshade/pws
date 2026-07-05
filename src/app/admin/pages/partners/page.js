@@ -24,13 +24,13 @@ export default function PartnersEditor() {
 
   return (
     <AdminGuard>
-      <div style={{ maxWidth:800 }}>
+      <div style={{ maxWidth:960 }}>
         <div style={{ marginBottom:24 }}>
           <h1 style={{ color:"#fff", fontSize:22, fontWeight:900, margin:"0 0 4px", fontFamily:"Georgia,serif" }}>Partners / Logo Marquee</h1>
           <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, margin:0 }}>Manage logos shown in the scrolling marquee on the home page.</p>
         </div>
         <SectionCard title="Partner Logos" onSave={save} saving={saving}>
-          {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
+          {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>Ã¢Å“â€œ Saved</div>}
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))", gap:14 }}>
             {logos.map((url, i) => (
               <div key={i} style={{ background:"rgba(255,255,255,0.04)", borderRadius:8, padding:12, border:"1px solid rgba(255,255,255,0.08)" }}>

@@ -19,13 +19,13 @@ export default function ChairpersonEditor() {
 
   return (
     <AdminGuard>
-      <div style={{ maxWidth: 800 }}>
+      <div style={{ maxWidth: 960 }}>
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ color: "#fff", fontSize: 22, fontWeight: 900, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Chairperson&apos;s Message</h1>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: 0 }}>Edit the chairperson profile and message content.</p>
         </div>
         <SectionCard title="Profile" onSave={save} saving={saving}>
-          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>âœ“ Saved</div>}
+          {saved && <div style={{ color: "#86efac", fontSize: 12, marginBottom: 12 }}>Ã¢Å“â€œ Saved</div>}
           <TextField label="Full Name" value={data.name || ""} onChange={u("name")} />
           <TextField label="Role / Designation" value={data.role || ""} onChange={u("role")} />
           <ImageField label="Portrait Photo" value={data.image || ""} onChange={u("image")} />

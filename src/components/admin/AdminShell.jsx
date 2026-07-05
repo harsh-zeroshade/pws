@@ -12,10 +12,10 @@ const TOP_NAV = [
 
 const PAGE_GROUPS = [
   { group: "Home", items: [
-    { label: "Hero & Stats",     href: "/admin/pages/home" },
-    { label: "Hero Video",       href: "/admin/pages/hero-video" },
-    { label: "Announcements",    href: "/admin/pages/announcements" },
-    { label: "Partners / Logos", href: "/admin/pages/partners" },
+    { label: "Hero & Stats",           href: "/admin/pages/home" },
+    { label: "Hero Video",             href: "/admin/pages/hero-video" },
+    { label: "Announcements",          href: "/admin/pages/announcements" },
+    { label: "Partners / Logos",       href: "/admin/pages/partners" },
   ]},
   { group: "About Us", items: [
     { label: "About School",           href: "/admin/pages/about-school" },
@@ -32,8 +32,33 @@ const PAGE_GROUPS = [
     { label: "Cambridge",              href: "/admin/pages/academics-cambridge" },
     { label: "Toppers",                href: "/admin/pages/topper-details" },
   ]},
+  { group: "Beyond Academics", items: [
+    { label: "Specialized Sports",     href: "/admin/pages/beyond-academics-sports" },
+    { label: "Trips & Excursions",     href: "/admin/pages/beyond-academics-trips" },
+    { label: "Hobby Clubs",            href: "/admin/pages/beyond-academics-clubs" },
+    { label: "Houses",                 href: "/admin/pages/beyond-academics-houses" },
+    { label: "Community Service",      href: "/admin/pages/beyond-academics-community" },
+  ]},
   { group: "Admission", items: [
+    { label: "Brochure",               href: "/admin/pages/admission-brochure" },
+    { label: "Admission Policy",       href: "/admin/pages/admission-policy" },
     { label: "Registration Process",   href: "/admin/pages/registration" },
+    { label: "Fee Structure",          href: "/admin/pages/fee-structure" },
+    { label: "School Schedule",        href: "/admin/pages/school-schedule" },
+  ]},
+  { group: "Committees", items: [
+    { label: "Managing Committee",     href: "/admin/pages/committee-managing" },
+    { label: "Disaster Management",    href: "/admin/pages/committee-disaster" },
+    { label: "POCSO Committee",        href: "/admin/pages/committee-pocso" },
+    { label: "School Curriculum",      href: "/admin/pages/committee-curriculum" },
+    { label: "Discipline Committee",   href: "/admin/pages/committee-discipline" },
+    { label: "Student Council",        href: "/admin/pages/committee-student-council" },
+  ]},
+  { group: "Other Pages", items: [
+    { label: "Gallery",                href: "/admin/pages/gallery" },
+    { label: "Awards & Achievements",  href: "/admin/pages/achievements-page" },
+    { label: "Contact Page",           href: "/admin/pages/contact-page" },
+    { label: "PACMUN",                 href: "/admin/pages/pacmun" },
   ]},
   { group: "Site-Wide", items: [
     { label: "Contact Info",           href: "/admin/pages/contact" },

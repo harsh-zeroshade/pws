@@ -12,7 +12,7 @@ function HeroEditor() {
   const u = k => v => setData(p => ({ ...p, [k]: v }));
   return (
     <SectionCard title="Hero Section" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>Ã¢Å“â€œ Saved</div>}
       <TextField label="Title" value={data.title || ""} onChange={u("title")} />
       <TextField label="Subtitle" value={data.subtitle || ""} onChange={u("subtitle")} multiline />
       <ImageField label="Background Image" value={data.bgImage || ""} onChange={u("bgImage")} />
@@ -30,7 +30,7 @@ function MissionEditor() {
   const u = k => v => setData(p => ({ ...p, [k]: v }));
   return (
     <SectionCard title="Mission & Vision" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>Ã¢Å“â€œ Saved</div>}
       <TextField label="Mission Title" value={data.missionTitle || ""} onChange={u("missionTitle")} />
       <TextField label="Mission Text" value={data.missionText || ""} onChange={u("missionText")} multiline />
       <TextField label="Vision Title" value={data.visionTitle || ""} onChange={u("visionTitle")} />
@@ -42,7 +42,7 @@ function MissionEditor() {
 export default function AboutSchoolEditor() {
   return (
     <AdminGuard>
-      <div style={{ maxWidth:800 }}>
+      <div style={{ maxWidth:960 }}>
         <div style={{ marginBottom:24 }}>
           <h1 style={{ color:"#fff", fontSize:22, fontWeight:900, margin:"0 0 4px", fontFamily:"Georgia,serif" }}>About School Page</h1>
           <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, margin:0 }}>Edit hero, mission, vision and emblem content.</p>

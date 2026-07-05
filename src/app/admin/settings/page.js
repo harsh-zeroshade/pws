@@ -14,7 +14,7 @@ function ContactSettings() {
 
   return (
     <SectionCard title="Contact Information" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>✓ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
       <TextField label="Phone 1" value={data.phone1 || ""} onChange={u("phone1")} />
       <TextField label="Phone 2" value={data.phone2 || ""} onChange={u("phone2")} />
       <TextField label="Admission Phone" value={data.admissionPhone || ""} onChange={u("admissionPhone")} />
@@ -29,13 +29,13 @@ function SchoolSettings() {
     name: "Pacific World School",
     cbseCode: "61276", cbseAffiliation: "2133246",
     cambridgeAffiliation: "IA380",
-    tagline: "Excellence · Empathy · Empowerment",
+    tagline: "Excellence Â· Empathy Â· Empowerment",
   });
   const u = k => v => setData(p => ({ ...p, [k]: v }));
 
   return (
     <SectionCard title="School Information" onSave={save} saving={saving}>
-      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>✓ Saved</div>}
+      {saved && <div style={{ color:"#86efac", fontSize:12, marginBottom:12 }}>âœ“ Saved</div>}
       <TextField label="School Name" value={data.name || ""} onChange={u("name")} />
       <TextField label="Tagline" value={data.tagline || ""} onChange={u("tagline")} />
       <TextField label="CBSE School Code" value={data.cbseCode || ""} onChange={u("cbseCode")} />
@@ -48,7 +48,7 @@ function SchoolSettings() {
 export default function SettingsPage() {
   return (
     <AdminGuard>
-      <div style={{ maxWidth:800 }}>
+      <div style={{ maxWidth:960 }}>
         <div style={{ marginBottom:24 }}>
           <h1 style={{ color:"#fff", fontSize:22, fontWeight:900, margin:"0 0 4px", fontFamily:"Georgia,serif" }}>Settings</h1>
           <p style={{ color:"rgba(255,255,255,0.4)", fontSize:13, margin:0 }}>Site-wide settings and contact information.</p>
